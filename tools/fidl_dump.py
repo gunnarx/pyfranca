@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 
+# Have to define some paths to make this work (should be rearranged, ideally)
+import sys
+import os
+mydir = os.path.dirname(__file__)
+for p in ['..', 'pyfranca', 'pyfranca/pyfranca']:
+    if p not in sys.path:
+        sys.path.append(os.path.join(mydir,p))
+
 import argparse
 from pyfranca import Processor, LexerException, ParserException, \
     ProcessorException

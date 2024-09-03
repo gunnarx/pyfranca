@@ -9,7 +9,6 @@ from pyfranca import franca_lexer
 from pyfranca import ast
 import re
 
-
 class ArgumentGroup(object):
 
     __metaclass__ = ABCMeta
@@ -283,6 +282,37 @@ class Parser(object):
 
     # noinspection PyIncorrectDocstring
     @staticmethod
+    def p_interface_3(p):
+        """
+        def : structured_comment INTERFACE ID MANAGES list_of_interfaces '{' interface_members '}'
+        """
+        p[0] = p[1]
+        try:
+            p[0] = ast.Interface(name=p[3], flags=None, members=[],
+                                 extends=[], manages=p[5], comments=p[1])
+        except ast.ASTException as e:
+            raise ParserException(e.message)
+
+    # noinspection PyIncorrectDocstring
+    @staticmethod
+    def p_list_of_interfaces_1(p):
+        """
+        list_of_interfaces : list_of_interfaces ',' ID
+        """
+        p[0] = p[1]
+        p[0].add_member(p[1])
+
+    # noinspection PyIncorrectDocstring
+    @staticmethod
+    def p_list_of_interfaces_2(p):
+        """
+        list_of_interfaces : ID
+        """
+        p[0] = ast.InterfaceList(members=[p[0]])
+
+
+    # noinspection PyIncorrectDocstring
+    @staticmethod
     def p_interface_members_1(p):
         """
         interface_members : interface_members interface_member
@@ -458,6 +488,15 @@ class Parser(object):
         """
         p[0] = ErrorArgumentGroup(p[3])
 
+#    # noinspection PyIncorrectDocstring
+#    @staticmethod
+#    def p_arg_group_def_4(p):
+#        """
+#        arg_group_def : IN '{' '}'
+#        """
+#        fail
+#        p[0] = InArgumentGroup([])
+#
     # noinspection PyIncorrectDocstring
     @staticmethod
     def p_arg_group_def_4(p):
@@ -498,6 +537,15 @@ class Parser(object):
         """
         p[0] = OrderedDict()
         p[0][p[1].name] = p[1]
+
+    # noinspection PyIncorrectDocstring
+    @staticmethod
+    def p_arg_defs_3(p):
+        """
+        arg_defs : empty
+        """
+        pass
+        #p[0] = OrderedDict()
 
     # noinspection PyIncorrectDocstring
     @staticmethod

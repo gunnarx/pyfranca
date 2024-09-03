@@ -444,13 +444,14 @@ class Reference(Type):
 
 class Interface(Namespace):
 
-    def __init__(self, name, flags=None, members=None, extends=None, comments=None):
+    def __init__(self, name, flags=None, members=None, extends=None, comments=None, manages=None):
         super(Interface, self).__init__(name=name, flags=flags, members=None, comments=comments)
         self.attributes = OrderedDict()
         self.methods = OrderedDict()
         self.broadcasts = OrderedDict()
         self.extends = extends
         self.reference = None
+        self.manages = manages
         if members:
             for member in members:
                 self._add_member(member)
@@ -506,6 +507,13 @@ class Interface(Namespace):
             member.namespace = self
         else:
             super(Interface, self)._add_member(member)
+
+
+class InterfaceList:
+    def __init__(self, members=None):
+        self.members = []
+    def add_member(self, member):
+        self.members.append(member)
 
 
 class Version(object):
