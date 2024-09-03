@@ -305,10 +305,10 @@ class Processor(object):
             if package_import.namespace:
                 # Namespace import
                 package_reference = package_import.package_reference
-                if not package_import.namespace.endswith(".*"):
-                    raise ProcessorException(
-                        "Invalid namespace import {}.".format(
-                            package_import.namespace))
+#                if not package_import.namespace.endswith(".*"):
+#                    raise ProcessorException(
+#                        "Invalid namespace import {}.".format(
+#                            package_import.namespace))
                 namespace_name = \
                     package_import.namespace[len(package_reference.name) + 1:-2]
                 # Update namespace reference
